@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { runValidate } from "./cli.js";
+import { mockFetch } from "./test-helpers.js";
 
 const policy = {
   agentPolicyVersion: "0.1",
@@ -7,15 +8,6 @@ const policy = {
   contact: "security@dekimu.com",
   capabilities: []
 };
-
-function mockFetch(map: Record<string, { status: number; body: string }>): typeof fetch {
-  return (async (input: string | URL) => {
-    const url = typeof input === "string" ? input : input.href;
-    const hit = map[url];
-    if (!hit) return { ok: false, status: 404 } as Response;
-    return { ok: true, status: hit.status, text: async () => hit.body, json: async () => JSON.parse(hit.body) } as Response;
-  }) as typeof fetch;
-}
 
 describe("runValidate", () => {
   it("exit code 0 for a valid live policy", async () => {

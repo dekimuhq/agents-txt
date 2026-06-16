@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { fetchAgentPolicy } from "./fetch.js";
+import { mockFetch } from "./test-helpers.js";
 
 const policy = {
   agentPolicyVersion: "0.1",
@@ -7,20 +8,6 @@ const policy = {
   contact: "security@dekimu.com",
   capabilities: []
 };
-
-function mockFetch(map: Record<string, { status: number; body: string }>): typeof fetch {
-  return (async (input: string | URL) => {
-    const url = typeof input === "string" ? input : input.href;
-    const hit = map[url];
-    if (!hit) return { ok: false, status: 404 } as Response;
-    return {
-      ok: hit.status >= 200 && hit.status < 300,
-      status: hit.status,
-      text: async () => hit.body,
-      json: async () => JSON.parse(hit.body),
-    } as Response;
-  }) as typeof fetch;
-}
 
 describe("fetchAgentPolicy", () => {
   it("follows agents.txt → Policy: → validated policy", async () => {
@@ -41,5 +28,17 @@ describe("fetchAgentPolicy", () => {
       "https://x.com/p.json": { status: 200, body: JSON.stringify({ agentPolicyVersion: "9.9" }) },
     });
     expect(await fetchAgentPolicy("https://x.com", f)).toBeNull();
+  });
+  it("throws on an invalid origin (caller bug, not swallowed)", async () => {
+    const f = mockFetch({});
+    await expect(fetchAgentPolicy("not-a-url", f)).rejects.toThrow();
+  });
+  it("falls back to /.well-known/agent-policy.json when agents.txt has no Policy: directive", async () => {
+    const f = mockFetch({
+      "https://dekimu.com/agents.txt": { status: 200, body: "Contact: a@x.com" },
+      "https://dekimu.com/.well-known/agent-policy.json": { status: 200, body: JSON.stringify(policy) },
+    });
+    const r = await fetchAgentPolicy("https://dekimu.com", f);
+    expect(r?.issuer.name).toBe("Dekimu Labs SL");
   });
 });

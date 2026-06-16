@@ -9,6 +9,6 @@ jobs:
         with: { node-version: 20 }
       - run: npm install
       - run: npm run check:no-private-dep
-      - run: npm run gen:schema
       - run: npm run build
+      - run: npm run gen:schema
       - run: npm test

@@ -36,4 +36,8 @@ describe("agentPolicySchema", () => {
     const bad = { ...valid, capabilities: [{ ...valid.capabilities[0], riskTier: "yolo" }] };
     expect(agentPolicySchema.safeParse(bad).success).toBe(false);
   });
+  it("rejects unknown keys inside the nested issuer object (.strict() on sub-schema)", () => {
+    const bad = { ...valid, issuer: { name: "Dekimu Labs SL", url: "https://dekimu.com", bogus: 1 } };
+    expect(agentPolicySchema.safeParse(bad).success).toBe(false);
+  });
 });

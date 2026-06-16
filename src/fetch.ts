@@ -5,8 +5,9 @@ export async function fetchAgentPolicy(
   origin: string,
   fetchImpl: typeof fetch = fetch
 ): Promise<AgentPolicy | null> {
+  // Throws synchronously for caller bugs (invalid origin) — TypeError propagates out.
+  const base = new URL(origin);
   try {
-    const base = new URL(origin);
     const txtRes = await fetchImpl(new URL("/agents.txt", base).href);
     if (!txtRes.ok) return null;
     const stub = parseAgentsTxt(await txtRes.text());

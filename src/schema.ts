@@ -35,6 +35,7 @@ export const issuerSchema = z.object({
 export const agentPolicySchema = z.object({
   agentPolicyVersion: z.literal("0.1"),
   issuer: issuerSchema,
+  // "default" is a JS reserved word but is intentional and spec-mandated (the policy's default posture).
   default: z.enum(["deny", "allow"]).default("deny"),
   contact: z.string().min(1),
   verify: z.string().url().optional(),

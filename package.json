@@ -32,7 +32,7 @@
     "test": "vitest run",
     "gen:schema": "node scripts/gen-schema.mjs",
     "check:no-private-dep": "node -e \"const p=require('./package.json');const all={...p.dependencies,...p.peerDependencies};if(Object.keys(all||{}).some(d=>d.startsWith('@dekimuhq/'))){console.error('FAIL: @dekimuhq dep present');process.exit(1)}console.log('ok: no @dekimuhq deps')\"",
-    "prepublishOnly": "npm run check:no-private-dep && npm run gen:schema && npm run build && npm test"
+    "prepublishOnly": "npm run check:no-private-dep && npm run build && npm run gen:schema && npm test"
   },
   "dependencies": {
     "zod": "^3.23.8"

@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import { fetchAgentPolicy } from "./fetch.js";
 import { parseAgentPolicy } from "./parse.js";
 
@@ -18,7 +19,7 @@ export async function runValidate(target: string, fetchImpl: typeof fetch = fetc
   return 0;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
   const [, , cmd, target] = process.argv;
   if (cmd !== "validate" || !target) {
     console.error("usage: agents-txt validate <url|file>");

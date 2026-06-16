@@ -56,6 +56,7 @@ describe("renderAgentsTxt", () => {
       verify: "https://verify.dekimu.com",
     });
     expect(txt).toContain("Policy: https://dekimu.com/.well-known/agent-policy.json");
+    expect(txt).toContain("Contact: security@dekimu.com");
     expect(txt).toContain("Verify: https://verify.dekimu.com");
     expect(txt.endsWith("\n")).toBe(true);
   });
