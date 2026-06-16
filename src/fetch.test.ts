@@ -1,0 +1,45 @@
+import { describe, it, expect } from "vitest";
+import { fetchAgentPolicy } from "./fetch.js";
+
+const policy = {
+  agentPolicyVersion: "0.1",
+  issuer: { name: "Dekimu Labs SL", url: "https://dekimu.com" },
+  contact: "security@dekimu.com",
+  capabilities: []
+};
+
+function mockFetch(map: Record<string, { status: number; body: string }>): typeof fetch {
+  return (async (input: string | URL) => {
+    const url = typeof input === "string" ? input : input.href;
+    const hit = map[url];
+    if (!hit) return { ok: false, status: 404 } as Response;
+    return {
+      ok: hit.status >= 200 && hit.status < 300,
+      status: hit.status,
+      text: async () => hit.body,
+      json: async () => JSON.parse(hit.body),
+    } as Response;
+  }) as typeof fetch;
+}
+
+describe("fetchAgentPolicy", () => {
+  it("follows agents.txt → Policy: → validated policy", async () => {
+    const f = mockFetch({
+      "https://dekimu.com/agents.txt": { status: 200, body: "Policy: https://dekimu.com/p.json" },
+      "https://dekimu.com/p.json": { status: 200, body: JSON.stringify(policy) },
+    });
+    const r = await fetchAgentPolicy("https://dekimu.com", f);
+    expect(r?.issuer.name).toBe("Dekimu Labs SL");
+  });
+  it("returns null when agents.txt is missing", async () => {
+    const r = await fetchAgentPolicy("https://nope.example", mockFetch({}));
+    expect(r).toBeNull();
+  });
+  it("returns null when the policy JSON is invalid (fail-closed)", async () => {
+    const f = mockFetch({
+      "https://x.com/agents.txt": { status: 200, body: "Policy: https://x.com/p.json" },
+      "https://x.com/p.json": { status: 200, body: JSON.stringify({ agentPolicyVersion: "9.9" }) },
+    });
+    expect(await fetchAgentPolicy("https://x.com", f)).toBeNull();
+  });
+});
