@@ -4,13 +4,29 @@
   "description": "Agent Action Policy — the robots.txt for agent actions. Parse, validate, fetch, and generate agents.txt + agent-policy.json.",
   "license": "MIT",
   "type": "module",
-  "engines": { "node": ">=20" },
-  "bin": { "agents-txt": "dist/cli.js" },
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "agents-txt": "dist/cli.js"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist", "SPEC.md", "agent-policy.schema.json"],
-  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
-  "publishConfig": { "access": "public", "registry": "https://registry.npmjs.org" },
+  "files": [
+    "dist",
+    "SPEC.md",
+    "agent-policy.schema.json"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
@@ -18,8 +34,11 @@
     "check:no-private-dep": "node -e \"const p=require('./package.json');const all={...p.dependencies,...p.peerDependencies};if(Object.keys(all||{}).some(d=>d.startsWith('@dekimuhq/'))){console.error('FAIL: @dekimuhq dep present');process.exit(1)}console.log('ok: no @dekimuhq deps')\"",
     "prepublishOnly": "npm run check:no-private-dep && npm run gen:schema && npm run build && npm test"
   },
-  "dependencies": { "zod": "^3.23.8" },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
   "devDependencies": {
+    "@types/node": "^25.9.3",
     "typescript": "^5.6.0",
     "vitest": "^2.1.0",
     "zod-to-json-schema": "^3.23.0"
