@@ -6,7 +6,7 @@ import type { Capability } from "./schema.js";
 describe("buildAgentPolicy", () => {
   it("builds a valid policy and defaults to deny", () => {
     const p = buildAgentPolicy({
-      issuer: { name: "Dekimu Labs SL", url: "https://dekimu.com" },
+      issuer: { name: "Dekimu", url: "https://dekimu.com" },
       contact: "security@dekimu.com",
     });
     expect(p.default).toBe("deny");
@@ -38,7 +38,7 @@ describe("buildAgentPolicy", () => {
       receipt: { kind: ns.receiptKind, verify: "https://verify.dekimu.com" },
     };
     const p = buildAgentPolicy({
-      issuer: { name: "Dekimu Labs SL", url: "https://dekimu.com" },
+      issuer: { name: "Dekimu", url: "https://dekimu.com" },
       contact: "security@dekimu.com",
       capabilities: [cap],
     });

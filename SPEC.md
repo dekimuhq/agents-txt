@@ -115,7 +115,7 @@ Verify: https://verify.dekimu.com
 {
   "agentPolicyVersion": "0.1",
   "issuer": {
-    "name": "Dekimu Labs SL",
+    "name": "Dekimu",
     "url": "https://dekimu.com",
     "keys": "https://id.dekimu.com/.well-known/agent-keys.json"
   },

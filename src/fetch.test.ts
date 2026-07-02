@@ -4,7 +4,7 @@ import { mockFetch } from "./test-helpers.js";
 
 const policy = {
   agentPolicyVersion: "0.1",
-  issuer: { name: "Dekimu Labs SL", url: "https://dekimu.com" },
+  issuer: { name: "Dekimu", url: "https://dekimu.com" },
   contact: "security@dekimu.com",
   capabilities: []
 };
@@ -16,7 +16,7 @@ describe("fetchAgentPolicy", () => {
       "https://dekimu.com/p.json": { status: 200, body: JSON.stringify(policy) },
     });
     const r = await fetchAgentPolicy("https://dekimu.com", f);
-    expect(r?.issuer.name).toBe("Dekimu Labs SL");
+    expect(r?.issuer.name).toBe("Dekimu");
   });
   it("returns null when agents.txt is missing", async () => {
     const r = await fetchAgentPolicy("https://nope.example", mockFetch({}));
@@ -39,6 +39,6 @@ describe("fetchAgentPolicy", () => {
       "https://dekimu.com/.well-known/agent-policy.json": { status: 200, body: JSON.stringify(policy) },
     });
     const r = await fetchAgentPolicy("https://dekimu.com", f);
-    expect(r?.issuer.name).toBe("Dekimu Labs SL");
+    expect(r?.issuer.name).toBe("Dekimu");
   });
 });

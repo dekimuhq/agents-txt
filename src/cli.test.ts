@@ -4,7 +4,7 @@ import { mockFetch } from "./test-helpers.js";
 
 const policy = {
   agentPolicyVersion: "0.1",
-  issuer: { name: "Dekimu Labs SL", url: "https://dekimu.com" },
+  issuer: { name: "Dekimu", url: "https://dekimu.com" },
   contact: "security@dekimu.com",
   capabilities: []
 };
