@@ -128,3 +128,12 @@ See [SPEC.md](./SPEC.md) for the full normative format, field definitions, confo
 ## Enforcing engine
 
 The policy you publish with `agents-txt` describes what agents may do. For the layer that actually issues scoped agent credentials, enforces `riskTier`, and emits independently verifiable receipts, see [Dekimu Hub](https://dekimu.com).
+
+---
+
+## Learn more
+
+- **Normative format:** [SPEC.md](./SPEC.md)
+- **Verifiable proof of agent actions:** [Anchored Receipts spec](https://github.com/dekimuhq/anchors-spec) · verify live at [verify.dekimu.com](https://verify.dekimu.com)
+- **MCP server (mint & verify receipts):** [dekimu-mcp](https://github.com/dekimuhq/dekimu-mcp)
+- **Who builds this:** [Dekimu](https://dekimu.com) — EU-first compliance & agent-trust tooling.
