@@ -3,6 +3,24 @@
   "version": "0.1.1",
   "description": "Agent Action Policy — the robots.txt for agent actions. Parse, validate, fetch, and generate agents.txt + agent-policy.json.",
   "license": "MIT",
+  "author": "Dekimu",
+  "homepage": "https://dekimu.com/open-source",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dekimuhq/agents-txt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dekimuhq/agents-txt/issues"
+  },
+  "keywords": [
+    "agents-txt",
+    "agent-policy",
+    "robots-txt",
+    "ai-agents",
+    "autonomous-agents",
+    "mcp",
+    "dekimu"
+  ],
   "type": "module",
   "engines": {
     "node": ">=20"
