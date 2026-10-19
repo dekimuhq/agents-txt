@@ -10,5 +10,7 @@ jobs:
       - run: npm install
       - run: npm run check:no-private-dep
       - run: npm run build
+      - name: bin entry must start with a shebang (0.1.0 shipped without one — npx ran it with sh)
+        run: head -c 21 dist/cli.js | grep -q '^#!/usr/bin/env node' || { echo '::error::dist/cli.js has no shebang'; exit 1; }
       - run: npm run gen:schema
       - run: npm test
