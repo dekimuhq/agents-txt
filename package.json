@@ -1,6 +1,6 @@
 {
   "name": "agents-txt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Agent Action Policy — the robots.txt for agent actions. Parse, validate, fetch, and generate agents.txt + agent-policy.json.",
   "license": "MIT",
   "type": "module",
