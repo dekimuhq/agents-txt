@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { realpathSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { fetchAgentPolicy } from "./fetch.js";
@@ -20,7 +21,21 @@ export async function runValidate(target: string, fetchImpl: typeof fetch = fetc
   return 0;
 }
 
-if (process.argv[1] && process.argv[1] === fileURLToPath(import.meta.url)) {
+/**
+ * True only when this file is the process entry point. Compared by realpath:
+ * under `npx`/`node_modules/.bin` argv[1] is the `.bin/agents-txt` symlink while
+ * import.meta.url is the resolved file — a plain string compare was false there,
+ * so 0.1.1 exited 0 with no output for every URL (direct `node dist/cli.js` worked).
+ */
+function isEntryPoint(): boolean {
+  try {
+    return !!process.argv[1] && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return false;
+  }
+}
+
+if (isEntryPoint()) {
   const [, , cmd, target] = process.argv;
   if (cmd !== "validate" || !target) {
     console.error("usage: agents-txt validate <url|file>");
