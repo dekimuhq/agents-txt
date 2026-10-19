@@ -136,4 +136,7 @@ The policy you publish with `agents-txt` describes what agents may do. For the l
 - **Normative format:** [SPEC.md](./SPEC.md)
 - **Verifiable proof of agent actions:** [Anchored Receipts spec](https://github.com/dekimuhq/anchors-spec) · verify live at [verify.dekimu.com](https://verify.dekimu.com)
 - **MCP server (mint & verify receipts):** [dekimu-mcp](https://github.com/dekimuhq/dekimu-mcp)
-- **Who builds this:** [Dekimu](https://dekimu.com) — EU-first compliance & agent-trust tooling.
+
+## Part of the Dekimu ecosystem
+
+Built and maintained by [Dekimu](https://dekimu.com). The Dekimu ecosystem — [Dekimu Hub](https://app.dekimu.com) and the public verifier at [verify.dekimu.com](https://verify.dekimu.com) — is the reference implementation for this project. Sibling projects: [anchors-spec](https://github.com/dekimuhq/anchors-spec) · [dekimu-mcp](https://github.com/dekimuhq/dekimu-mcp) · [regulation-as-code](https://github.com/dekimuhq/regulation-as-code) · [claude-memory](https://github.com/dekimuhq/claude-memory). All of them: https://dekimu.com/open-source.
