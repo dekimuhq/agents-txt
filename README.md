@@ -14,7 +14,7 @@ Normative format: [SPEC.md](./SPEC.md)
 npm i agents-txt
 ```
 
-Node ≥ 20. Zero runtime dependencies beyond `zod`.
+Node ≥ 20. Zero runtime dependencies beyond `zod` (v4 — the exported schemas are zod 4 schemas since 0.2.0).
 
 ---
 

@@ -1,21 +1,21 @@
 import { z } from "zod";
 
-export const doorSchema = z.object({
+export const doorSchema = z.strictObject({
   type: z.enum(["mcp", "openapi"]),
-  url: z.string().url(),
-}).strict();
+  url: z.url(),
+});
 
-export const receiptSchema = z.object({
+export const receiptSchema = z.strictObject({
   kind: z.string().min(1),
-  verify: z.string().url().optional(),
-}).strict();
+  verify: z.url().optional(),
+});
 
-export const rateLimitSchema = z.object({
-  max: z.number().int().positive(),
+export const rateLimitSchema = z.strictObject({
+  max: z.int().positive(),
   window: z.string().min(1),
-}).strict();
+});
 
-export const capabilitySchema = z.object({
+export const capabilitySchema = z.strictObject({
   id: z.string().regex(/^[a-z0-9]+(\.[a-z0-9]+)+$/, "id must be dotted lowercase, e.g. ropa.compile"),
   description: z.string().min(1),
   door: doorSchema,
@@ -24,23 +24,23 @@ export const capabilitySchema = z.object({
   riskTier: z.enum(["auto", "checkpoint"]),
   receipt: receiptSchema.optional(),
   rateLimit: rateLimitSchema.optional(),
-}).strict();
+});
 
-export const issuerSchema = z.object({
+export const issuerSchema = z.strictObject({
   name: z.string().min(1),
-  url: z.string().url(),
-  keys: z.string().url().optional(),
-}).strict();
+  url: z.url(),
+  keys: z.url().optional(),
+});
 
-export const agentPolicySchema = z.object({
+export const agentPolicySchema = z.strictObject({
   agentPolicyVersion: z.literal("0.1"),
   issuer: issuerSchema,
   // "default" is a JS reserved word but is intentional and spec-mandated (the policy's default posture).
   default: z.enum(["deny", "allow"]).default("deny"),
   contact: z.string().min(1),
-  verify: z.string().url().optional(),
+  verify: z.url().optional(),
   capabilities: z.array(capabilitySchema),
-}).strict();
+});
 
 export type AgentPolicy = z.infer<typeof agentPolicySchema>;
 export type Capability = z.infer<typeof capabilitySchema>;
