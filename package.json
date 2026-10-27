@@ -1,6 +1,6 @@
 {
   "name": "agents-txt",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Agent Action Policy — the robots.txt for agent actions. Parse, validate, fetch, and generate agents.txt + agent-policy.json.",
   "license": "MIT",
   "author": "Dekimu",
@@ -53,12 +53,11 @@
     "prepublishOnly": "npm run check:no-private-dep && npm run build && npm run gen:schema && npm test"
   },
   "dependencies": {
-    "zod": "^3.23.8"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/node": "^25.9.3",
     "typescript": "^5.6.0",
-    "vitest": "^4.1.11",
-    "zod-to-json-schema": "^3.23.0"
+    "vitest": "^4.1.11"
   }
 }
