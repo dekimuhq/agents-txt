@@ -36,4 +36,24 @@ describe("parseAgentsTxt", () => {
     expect(r.contact).toBe("security@dekimu.com");
     expect(r.verify).toBe("https://verify.dekimu.com");
   });
+
+  it("accepts whitespace (incl. a stray CR) between the colon and the value", () => {
+    expect(parseAgentsTxt("Policy:\t \r https://a.example/p.json").policy).toBe(
+      "https://a.example/p.json",
+    );
+    expect(parseAgentsTxt("Contact:x").contact).toBe("x");
+    expect(parseAgentsTxt("Verify:   ").verify).toBeUndefined();
+  });
+
+  it("rejects a value containing an inner line terminator, as before", () => {
+    expect(parseAgentsTxt("Policy: a\rb").policy).toBeUndefined();
+  });
+
+  it("stays linear on a pathological whitespace run (ReDoS regression)", () => {
+    // The old /^([A-Za-z]+):\s*(.+)$/ took ~7s on this input.
+    const evil = "Policy:" + " ".repeat(100_000) + "x\ry";
+    const t = performance.now();
+    expect(parseAgentsTxt(evil).policy).toBeUndefined();
+    expect(performance.now() - t).toBeLessThan(250);
+  });
 });
