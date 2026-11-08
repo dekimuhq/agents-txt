@@ -24,7 +24,10 @@ export function parseAgentsTxt(text: string): AgentsTxt {
   for (const raw of text.split(/\r?\n/)) {
     const line = raw.trim();
     if (!line || line.startsWith("#") || line.startsWith(">")) continue;
-    const m = line.match(/^([A-Za-z]+):\s*(.+)$/);
+    // Linear: `\s*` and `\S` are disjoint, so there is exactly one way to
+    // split the value off. The old `\s*(.+)$` backtracked quadratically on a
+    // long whitespace run followed by a line terminator (js/polynomial-redos).
+    const m = line.match(/^([A-Za-z]+):\s*(\S[^\r\n\u2028\u2029]*)$/);
     if (!m) continue;
     const key = m[1].toLowerCase();
     const val = m[2].trim();
